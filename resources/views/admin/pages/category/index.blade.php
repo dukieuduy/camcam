@@ -55,11 +55,11 @@
                         </td>
                         <td>{{ $category->description }}</td>
                         <td>
-                            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure edit this category?')" >Edit</a>
                             <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this category?')">Delete</button>
                             </form>
                         </td>
                     </tr>

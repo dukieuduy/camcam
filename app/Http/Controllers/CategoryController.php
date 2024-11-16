@@ -24,7 +24,7 @@ class CategoryController extends Controller
         // Phân trang kết quả
         $categories = $query->paginate(10);
 
-        return view('admin.pages.category.index', compact('categories')) && view('client.pages.home',compact('categories'));
+        return view('admin.pages.category.index', compact('categories'));
     }
 
     public function create()

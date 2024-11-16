@@ -36,7 +36,7 @@
                         <form action="{{ route('admin.reviews.destroy', $review->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this review?')">Xóa</button>
                         </form>
                     </td>
                 </tr>

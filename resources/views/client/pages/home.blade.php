@@ -22,32 +22,45 @@
                     <div class="section_title">
                         <h2><span><strong>Our</strong> Products</span></h2>
                         <ul class="product_tab_button nav" role="tablist" id="nav-tab">
-                            <li>
-                                <a class="active" data-toggle="tab" href="#brake" role="tab" aria-controls="brake"
-                                   aria-selected="true">Brake Parts</a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#wheels" role="tab" aria-controls="wheels"
-                                   aria-selected="false">Wheels & Tires</a>
-                            </li>
-                            <li>
-                                <a data-toggle="tab" href="#turbo" role="tab" aria-controls="turbo"
-                                   aria-selected="false">Turbo System</a>
-                            </li>
+                            @foreach ($categories as $index => $category)
+                                <li>
+                                    <a 
+                                        class="nav-link {{ $index === 0 ? 'active' : '' }}" 
+                                        data-bs-toggle="tab" 
+                                        href="#category-{{ $category->id }}" 
+                                        role="tab" 
+                                        aria-controls="category-{{ $category->id }}" 
+                                        aria-selected="{{ $index === 0 ? 'true' : 'false' }}">
+                                        {{ $category->category_name }}
+                                    </a>
+                                </li>
+                            @endforeach
                         </ul>
+
                     </div>
                 </div>
             </div>
+
+
             <div class="tab-content">
-                <div class="tab-pane fade show active" id="brake" role="tabpanel">
-                    <div class="product_carousel product_column5 owl-carousel">
-                        @foreach($products as $product)
-                            <div class="single_product_list">
-                                <div class="single_product">
-                                    <div class="product_name">
-                                        <h3><a href="{{ route('product-details', $product->id) }}">{{ $product->name }}</a></h3>
-                                        <p class="manufacture_product"><a href="#">Accessories</a></p>
-                                    </div>
+                @foreach ($categories as $index => $category)
+                    <div 
+                        class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" 
+                        id="category-{{ $category->id }}" 
+                        role="tabpanel" 
+                        aria-labelledby="category-{{ $category->id }}">
+                        
+                        <div class="row">
+                            @foreach ($products as $product)
+                                @if ($product->category_id == $category->id)
+                                <div class="col-md-3">
+                                    <div class="single_product_list">
+                                        <div class="single_product">
+                                            <div class="product_name">
+                                                <h3><a href="{{ route('product-details', $product->id) }}">{{ $product->name }}</a></h3>
+                                                <p class="manufacture_product"><a href="#">Accessories</a></p>
+                                            </div>
+                                    
                                     <div class="product_thumb">
                                         <a class="primary_img" href="{{ route('product-details', $product->id) }}">
                                             <img src="{{ asset('assets/img/product/' . $product->image_url) }}" alt="{{ $product->name }}">
@@ -55,6 +68,7 @@
                                         <a class="secondary_img" href="{{ route('product-details', $product->id) }}">
                                             <img src="{{ asset('assets/img/product/' . $product->image_url) }}" alt="{{ $product->name }}">
                                         </a>
+                                        
                                         <div class="label_product">
                                             <span class="label_sale">-{{ $product->discount_percentage }}%</span>
                                         </div>
@@ -68,6 +82,7 @@
                                             </ul>
                                         </div>
                                     </div>
+                                                
                                     <div class="product_content">
                                         <div class="product_ratings">
                                              <!-- Hiển thị số sao trung bình cho sản phẩm này -->
@@ -78,23 +93,29 @@
                                                     </li>
                                                 @endfor
                                             </ul>
-                                        </div>
-                                        <div class="product_footer d-flex align-items-center">
-                                            <div class="price_box">
-                                                <span class="regular_price">${{ number_format($product->price, 2) }}</span>
-                                            </div>
-                                            <div class="add_to_cart">
-                                                <a href="{{ route('cart.add', $product->id) }}" title="add to cart"><span class="lnr lnr-cart"></span></a>
-                                            </div>
-                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
+                                         
+                                    <div class="product_footer d-flex align-items-center">
+                                        <div class="price_box">
+                                            <span class="regular_price">${{ number_format($product->price, 2) }}</span>
+                                        </div>   
+                                    
+                                        <div class="add_to_cart">
+                                            <a href="{{ route('cart.add', $product->id) }}" title="add to cart"><span class="lnr lnr-cart"></span></a>
+                                        </div>
+                                        </div>    
+                                    </div>   
+                                </div>        
+                            </div>        
+                        </div>                        
+                        @endif        
+                        @endforeach                    
+                    </div>        
+                </div>                        
+                @endforeach        
+            </div>                        
+        </div>               
+                          
     </section>
     <!--product area end-->
 
@@ -104,49 +125,68 @@
     </section>
     <!--banner area end-->
 
-    <!--custom product area-->
+
+
+
+
+
+
+
+
     <section class="custom_product_area">
-        <div class="container">
-            <div class="row">
+    <div class="container">
+        <div class="row">
+            @foreach ($categories as $category)
                 <div class="col-lg-4 col-md-12">
-                    <!--featured product area-->
+                    <!-- Featured Product Area -->
                     <div class="custom_product">
                         <div class="section_title">
-                            <h2><span>Body Parts</span></h2>
+                            <h2><span>{{ $category->category_name }}</span></h2>
                         </div>
                         <div class="small_product_items small_product_active">
-                            <!-- featured product -->
+                            @if (isset($productsByCategory[$category->id]))
+                                @foreach ($productsByCategory[$category->id] as $product)
+                                    <div class="single_product_items">
+                                        <div class="product_thumb">
+                                            <a href="{{ route('product-details', $product->id) }}">
+                                                <img src="{{ asset('assets/img/product/' . $product->image_url) }}" alt="{{ $product->name }}">
+                                            </a>
+                                        </div>
+                                        <div class="product_content">
+                                            <div class="product_name">
+                                                <h3>
+                                                    <a href="{{ route('product-details', $product->id) }}">{{ $product->name }}</a>
+                                                </h3>
+                                            </div>
+                                            <div class="product_ratings">
+                                                <ul>
+                                                    @for ($i = 1; $i <= 5; $i++)
+                                                        <li>
+                                                            <i class="fa {{ isset($productRatings[$product->id]) && $i <= $productRatings[$product->id] ? 'fa-star' : 'fa-star-o' }}"></i>
+                                                        </li>
+                                                    @endfor
+                                                </ul>
+                                            </div>
+                                            <div class="price_box">
+                                                <span class="current_price">${{ number_format($product->price, 2) }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @else
+                                <p>No products available in this category.</p>
+                            @endif
                         </div>
                     </div>
-                    <!--featured product end-->
+                    <!-- Featured Product End -->
                 </div>
-                <div class="col-lg-4 col-md-12">
-                    <!--mostview product area-->
-                    <div class="custom_product">
-                        <div class="section_title">
-                            <h2><span>Body Parts</span></h2>
-                        </div>
-                        <div class="small_product_items small_product_active">
-                            <!-- mostview product -->
-                        </div>
-                    </div>
-                    <!--mostview product end-->
-                </div>
-                <div class="col-lg-4 col-md-12">
-                    <!--bestSeller product area-->
-                    <div class="custom_product">
-                        <div class="section_title">
-                            <h2><span>Body Parts</span></h2>
-                        </div>
-                        <div class="small_product_items small_product_active">
-                            <!-- bestSeller product -->
-                        </div>
-                    </div>
-                    <!--bestSeller product end-->
-                </div>
-            </div>
+            @endforeach
         </div>
+    </div>
+</section>
+
     </section>
+    <!--custom product end-->
     <!--custom product end-->
 
     <!--brand area start-->

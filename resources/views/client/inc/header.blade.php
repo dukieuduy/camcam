@@ -186,15 +186,27 @@
                             </div>
                             <div class="categories_menu_toggle">
                                 <ul>
-                                    <li><a href="#"> Accessories</a></li>
-                                    <li><a href="#">Body Parts</a></li>
-                                    <li><a href="#">Perfomance Filters</a></li>
-                                    <li><a href="#"> Engine Parts</a></li>
-                                    <li class="hidden"><a href="shop-left-sidebar.html">New Sofas</a></li>
-                                    <li class="hidden"><a href="shop-left-sidebar.html">Sleight Sofas</a></li>
-                                    <li><a href="#" id="more-btn"><i class="fa fa-plus" aria-hidden="true"></i> More Categories</a></li>
+                                    <!-- Hiển thị các danh mục chính -->
+                                    @foreach ($categories->take(4) as $category) <!-- Lấy 4 danh mục đầu -->
+                                        <li><a href="#">{{ $category->category_name }}</a></li>
+                                    @endforeach
+
+                                    <!-- Danh mục ẩn -->
+                                    @foreach ($categories->skip(4) as $category) <!-- Bỏ 4 danh mục đầu -->
+                                        <li class="hidden-category" style="display: none;"><a href="#">{{ $category->category_name }}</a></li>
+                                    @endforeach
+
+                                    <!-- Nút More Categories -->
+                                    @if ($categories->count() > 4)
+                                        <li>
+                                            <a href="#" id="more-btn">
+                                                <i class="fa fa-plus" aria-hidden="true"></i> More Categories
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </div>
+
                         </div>
                         <div class="main_menu">
                             <nav>

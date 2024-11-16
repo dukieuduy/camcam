@@ -13,6 +13,10 @@ class ProductController extends Controller
         public function index(){
             
             $products = Product::all();
+            $categories = Category::all();
+
+            // Lấy danh sách sản phẩm và group theo category_id
+            $productsByCategory = Product::all()->groupBy('category_id');
 
             // Tạo mảng để chứa số sao trung bình của từng sản phẩm
             $productRatings = [];
@@ -30,7 +34,7 @@ class ProductController extends Controller
             }
 
             // Trả về view sau khi đã hoàn thành xử lý tất cả sản phẩm
-            return view('client.pages.home', compact('products', 'productRatings'));
+            return view('client.pages.home', compact('products', 'productRatings','categories','productsByCategory'));
 
     }
     // Hiển thị form tạo mới sản phẩm

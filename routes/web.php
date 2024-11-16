@@ -37,30 +37,29 @@ Route::get('/products', [ProductController::class, 'index'])->name('products.ind
 Route::prefix('admin')->name('admin.')->group(function () {
      // Hiển thị danh sách review
     Route::get('reviews', [ReviewController::class, 'index'])->name('reviews.index');
-    
+
     // Tạo review
     Route::get('reviews/create', [ReviewController::class, 'create'])->name('reviews.create');
     Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
-    
+
     // Sửa review
     Route::get('reviews/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
     Route::put('reviews/{id}', [ReviewController::class, 'update'])->name('reviews.update');
-    
+
     // Xóa review
     Route::delete('reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
 
 //cart
-Route::delete('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
-
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
-Route::post('/cart/update/{productId}', [CartController::class, 'updateItem'])->name('cart.update.post');
-Route::delete('/cart/remove/{productId}', [CartController::class, 'removeItem'])->name('cart.remove');
-Route::put('/cart/update/{productId}', [CartController::class, 'updateItem'])->name('cart.update.put');
+Route::put('/cart/update/{productId}', [CartController::class, 'updateItem'])->name('cart.update');
+Route::delete('/cart/{productId}', [CartController::class, 'removeItem'])->name('cart.remove');
 
-Route::get('/hihi', [CartController::class, 'index'])->name('hihi');
+
+
+
 
 //checkout
 Route::get('/checkout', [CheckoutController::class, 'checkout'])->name('checkout.index');
@@ -87,7 +86,7 @@ Route::get('/register',[UserController::class,'register'])->name('register');
 Route::post('/register',[UserController::class,'postRegister']);
 
 Route::post('/logout',[UserController::class, 'logout'])->name('logout');
-//dashboard 
+//dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // admin

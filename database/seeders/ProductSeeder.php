@@ -12,7 +12,7 @@ class ProductSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        foreach (range(1, 50) as $index) {
+        foreach (range(1, 10) as $index) {
             Product::create([
                 'name' => $faker->word,
                 'description' => $faker->sentence,

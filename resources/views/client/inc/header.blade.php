@@ -199,7 +199,7 @@
                         <div class="main_menu">
                             <nav>
                                 <ul>
-                                    <li><a href="index.html">home<i class="fa fa-angle-down"></i></a>
+                                    <li><a href="{{ route('home') }}">home<i class="fa fa-angle-down"></i></a>
 
                                     </li>
                                     <li class="mega_items"><a href="shop.html">shop<i class="fa fa-angle-down"></i></a>

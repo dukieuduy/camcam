@@ -13,4 +13,11 @@ class Product extends Model
         'name', 'description', 'price', 'stock_quantity', 
         'category_id', 'image_url', 'sku', 'is_active', 'vendor_id'
     ];
+
+    // Lấy danh mục thông qua category_id
+    public function getCategoryName()
+    {
+        $category = Category::find($this->category_id);  
+        return $category ? $category->category_name : 'Unknown Category';  
+    }
 }

@@ -54,9 +54,15 @@
             </div>
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Quản lý danh mục</h6>
-                <a class="collapse-item" href="buttons.html">Danh sách danh mục</a>
-                <a class="collapse-item" href="cards.html">Thêm danh mục</a>
+                <a class="collapse-item" href="{{route('categories.index')}}">Danh sách danh mục</a>
+                <a class="collapse-item" href="{{route('categories.create')}}">Thêm danh mục</a>
             </div>
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Quản lý đánh giá</h6>
+                <a class="collapse-item" href="{{route('admin.reviews.index')}}">Danh sách đánh giá</a>
+                <a class="collapse-item" href="{{route('admin.reviews.create')}}">Thêm đánh giá</a>
+            </div>
+
         </div>
     </li>
 

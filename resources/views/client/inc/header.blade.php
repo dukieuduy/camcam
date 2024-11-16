@@ -20,37 +20,51 @@
                     <div class="col-lg-6 col-md-6">
                         <div class="top_right text-end">
                             <ul>
-                                @guest
-                                @if (Route::has('login'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('login') }}">{{ __('đăng nhập') }}</a>
-                                    </li>
+                                <li class="top_links"><a href="#"><i class="ion-android-person"></i> @if (Auth::check())
+                                    {{Auth::user()->name}}<i class="ion-ios-arrow-down"></i></a>
+                                @else
+                                    My Account
                                 @endif
-    
-                                @if (Route::has('register'))
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('register') }}">{{ __('đăng ký') }}</a>
-                                    </li>
-                                @endif
-                            @else
-                                <li class="nav-item dropdown">
-                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        {{ Auth::user()->name }}
-                                    </a>
-    
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                           onclick="event.preventDefault();
-                                                         document.getElementById('logout-form').submit();">
-                                            {{ __('Logout') }}
-                                        </a>
-    
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
-                                    </div>
+
+                                    <ul class="dropdown_links">
+                                        <li><a href="checkout.html">checkout </a></li>
+                                        @if (Auth::check())
+                                         <li><a href="my-account.html">{{Auth::user()->name}} </a></li>
+                                            @else
+                                                My Account
+                                            @endif
+                                        </li>
+                                        {{-- <li><a href="my-account.html">{{Auth::user()->name}} </a></li> --}}
+                                        <li><a href="{{ route('cart.show') }}">Shopping Cart</a></li>
+                                        <li><a href="wishlist.html">Wishlist</a></li>
+                                        @if (Auth::check())
+                                        <li>
+                                            <form action="{{route('logout')}}" method="POST">
+                                                @csrf
+                                                <button type="submit" onclick="return confirm('bạn muốn đăng xuất')" class="btn btn-transparent text-decoration-none">Logout</button>
+                                            </form>
+                                            {{-- <a href="{{route('logout')}}" >Logout</a> --}}
+                                        </li>
+                                        @else
+                                        <li><a href="{{route('login')}}" >Login</a></li>
+
+                                        @endif
+                                    </ul>
                                 </li>
-                            @endguest
+                                <li class="language"><a href="#"><img src="assets/img/logo/language.png" alt="">en-gb<i class="ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_language">
+                                        <li><a href="#"><img src="assets/img/logo/language.png" alt=""> English</a></li>
+                                        <li><a href="#"><img src="assets/img/logo/language2.png" alt=""> Germany</a></li>
+                                    </ul>
+                                </li>
+                                <li class="currency"><a href="#">$ USD<i class="ion-ios-arrow-down"></i></a>
+                                    <ul class="dropdown_currency">
+                                        <li><a href="#">EUR – Euro</a></li>
+                                        <li><a href="#">GBP – British Pound</a></li>
+                                        <li><a href="#">INR – India Rupee</a></li>
+                                    </ul>
+                                </li>
+
 
                             </ul>
                         </div>
@@ -172,182 +186,13 @@
                             </div>
                             <div class="categories_menu_toggle">
                                 <ul>
-                                    <li class="menu_item_children categorie_list"><a href="#">Brake Parts <i
-                                                class="fa fa-angle-right"></i></a>
-                                        <ul class="categories_mega_menu">
-                                            <li class="menu_item_children"><a href="#">Wheel Bearings</a>
-                                                <ul class="categorie_sub_menu">
-                                                    <li><a href="#">Bower</a></li>
-                                                    <li><a href="#">Flipbac</a></li>
-                                                    <li><a href="#">Gary Fong</a></li>
-                                                    <li><a href="#">GigaPan</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu_item_children"><a href="#">Wheel Rim Screws</a>
-                                                <ul class="categorie_sub_menu">
-                                                    <li><a href="#">Accessories</a></li>
-                                                    <li><a href="#">2-Stroke</a></li>
-                                                    <li><a href="#">Handbag</a></li>
-                                                    <li><a href="#">Clothing</a></li>
-                                                </ul>
-                                            </li>
-                                            <li class="menu_item_children last_child"><a href="#">Wheel
-                                                    Simulators</a>
-                                                <ul class="categorie_sub_menu">
-                                                    <li><a href="#">Bags & Cases</a></li>
-                                                    <li><a href="#">Binoculars & Scopes</a></li>
-                                                    <li><a href="#">Film Photography</a></li>
-                                                    <li><a href="#">Lighting & Studio</a></li>
-                                                </ul>
-                                                <div class="categorie_banner">
-                                                    <a href="#"><img src="assets/img/bg/banner2.jpg"
-                                                            alt=""></a>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li class="menu_item_children"><a href="#"> Wheels & Tires <i
-                                                class="fa fa-angle-right"></i></a>
-                                        <ul class="categories_mega_menu">
-                                            <li class="menu_item_children"><a href="#">Dresses</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Sweater</a></li>
-                                                        <li><a href="#">Evening</a></li>
-                                                        <li><a href="#">Day</a></li>
-                                                        <li><a href="#">Sports</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="menu_item_children"><a href="#">Handbags</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Shoulder</a></li>
-                                                        <li><a href="#">Satchels</a></li>
-                                                        <li><a href="#">kids</a></li>
-                                                        <li><a href="#">coats</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="menu_item_children"><a href="#">shoes</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Ankle Boots</a></li>
-                                                        <li><a href="#">Clog sandals </a></li>
-                                                        <li><a href="#">run</a></li>
-                                                        <li><a href="#">Books</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="menu_item_children"><a href="#">Clothing</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Coats Jackets </a></li>
-                                                        <li><a href="#">Raincoats</a></li>
-                                                        <li><a href="#">Jackets</a></li>
-                                                        <li><a href="#">T-shirts</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li class="menu_item_children"><a href="#"> Furnitured & Decor <i
-                                                class="fa fa-angle-right"></i></a>
-                                        <ul class="categories_mega_menu column_3">
-                                            <li class="menu_item_children"><a href="#">Chair</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Dining room</a></li>
-                                                        <li><a href="#">bedroom</a></li>
-                                                        <li><a href="#"> Home & Office</a></li>
-                                                        <li><a href="#">living room</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="menu_item_children"><a href="#">Lighting</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Ceiling Lighting</a></li>
-                                                        <li><a href="#">Wall Lighting</a></li>
-                                                        <li><a href="#">Outdoor Lighting</a></li>
-                                                        <li><a href="#">Smart Lighting</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="menu_item_children"><a href="#">Sofa</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Fabric Sofas</a></li>
-                                                        <li><a href="#">Leather Sofas</a></li>
-                                                        <li><a href="#">Corner Sofas</a></li>
-                                                        <li><a href="#">Sofa Beds</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="menu_item_children"><a href="#"> Turbo System <i
-                                                class="fa fa-angle-right"></i></a>
-                                        <ul class="categories_mega_menu column_2">
-                                            <li class="menu_item_children"><a href="#">Brake Tools</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Driveshafts</a></li>
-                                                        <li><a href="#">Spools</a></li>
-                                                        <li><a href="#">Diesel </a></li>
-                                                        <li><a href="#">Gasoline</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="menu_item_children"><a href="#">Emergency Brake</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Dolls for Girls</a></li>
-                                                        <li><a href="#">Girls' Learning Toys</a></li>
-                                                        <li><a href="#">Arts and Crafts for Girls</a></li>
-                                                        <li><a href="#">Video Games for Girls</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li class="menu_item_children"><a href="#"> Lighting <i
-                                                class="fa fa-angle-right"></i></a>
-                                        <ul class="categories_mega_menu column_2">
-                                            <li class="menu_item_children"><a href="#">Check Trousers</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Building</a></li>
-                                                        <li><a href="#">Electronics</a></li>
-                                                        <li><a href="#">action figures </a></li>
-                                                        <li><a href="#">specialty & boutique toy</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-                                            <li class="menu_item_children"><a href="#">Calculators</a>
-                                                <div class="categorie_sub_menu">
-                                                    <ul>
-                                                        <li><a href="#">Dolls for Girls</a></li>
-                                                        <li><a href="#">Girls' Learning Toys</a></li>
-                                                        <li><a href="#">Arts and Crafts for Girls</a></li>
-                                                        <li><a href="#">Video Games for Girls</a></li>
-                                                    </ul>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-                                    </li>
                                     <li><a href="#"> Accessories</a></li>
                                     <li><a href="#">Body Parts</a></li>
                                     <li><a href="#">Perfomance Filters</a></li>
                                     <li><a href="#"> Engine Parts</a></li>
                                     <li class="hidden"><a href="shop-left-sidebar.html">New Sofas</a></li>
                                     <li class="hidden"><a href="shop-left-sidebar.html">Sleight Sofas</a></li>
-                                    <li><a href="#" id="more-btn"><i class="fa fa-plus"
-                                                aria-hidden="true"></i> More Categories</a></li>
+                                    <li><a href="#" id="more-btn"><i class="fa fa-plus" aria-hidden="true"></i> More Categories</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -355,20 +200,9 @@
                             <nav>
                                 <ul>
                                     <li><a href="index.html">home<i class="fa fa-angle-down"></i></a>
-                                        <ul class="sub_menu">
-                                            <li><a href="index.html">Home 1</a></li>
-                                            <li><a href="index-2.html">Home 2</a></li>
-                                            <li><a href="index-3.html">Home 3</a></li>
-                                            <li><a href="index-4.html">Home 4</a></li>
-                                            <li><a href="index-5.html">Home 5</a></li>
-                                            <li><a href="index-6.html">Home 6</a></li>
-                                            <li class="home7new"><a href="index-7.html">Home 7</a><span>new</span>
-                                            </li>
-                                        </ul>
 
                                     </li>
-                                    <li class="mega_items"><a href="shop.html">shop<i
-                                                class="fa fa-angle-down"></i></a>
+                                    <li class="mega_items"><a href="shop.html">shop<i class="fa fa-angle-down"></i></a>
                                         <div class="mega_menu">
                                             <ul class="mega_menu_inner">
                                                 <li><a href="#">Shop Layouts</a>
@@ -376,8 +210,7 @@
                                                         <li><a href="shop-fullwidth.html">Full Width</a></li>
                                                         <li><a href="shop-fullwidth-list.html">Full Width list</a></li>
                                                         <li><a href="shop-right-sidebar.html">Right Sidebar </a></li>
-                                                        <li><a href="shop-right-sidebar-list.html"> Right Sidebar
-                                                                list</a></li>
+                                                        <li><a href="shop-right-sidebar-list.html"> Right Sidebar list</a></li>
                                                         <li><a href="shop-list.html">List View</a></li>
                                                     </ul>
                                                 </li>
@@ -403,18 +236,15 @@
                                                     <ul>
                                                         <li><a href="shop.html">Cables & Connectors</a></li>
                                                         <li><a href="shop-list.html">Graphics Tablets</a></li>
-                                                        <li><a href="shop-fullwidth.html">Printers, Ink & Toner</a>
-                                                        </li>
-                                                        <li><a href="shop-fullwidth-list.html">Refurbished Tablets</a>
-                                                        </li>
+                                                        <li><a href="shop-fullwidth.html">Printers, Ink & Toner</a></li>
+                                                        <li><a href="shop-fullwidth-list.html">Refurbished Tablets</a></li>
                                                         <li><a href="shop-right-sidebar.html">Optical Drives</a></li>
 
                                                     </ul>
                                                 </li>
                                             </ul>
                                             <div class="banner_static_menu">
-                                                <a href="shop.html"><img src="assets/img/bg/banner1.jpg"
-                                                        alt=""></a>
+                                                <a href="shop.html"><img src="assets/img/bg/banner1.jpg" alt=""></a>
                                             </div>
                                         </div>
                                     </li>
@@ -480,13 +310,11 @@
                                     <li><a href="wishlist.html">Wishlist</a></li>
                                 </ul>
                             </li>
-                            <li class="language"><a href="#"><img src="assets/img/logo/language.png"
-                                        alt="">en-gb<i class="ion-ios-arrow-down"></i></a>
+                            <li class="language"><a href="#"><img src="assets/img/logo/language.png" alt="">en-gb<i
+                                        class="ion-ios-arrow-down"></i></a>
                                 <ul class="dropdown_language">
-                                    <li><a href="#"><img src="assets/img/logo/language.png" alt="">
-                                            English</a></li>
-                                    <li><a href="#"><img src="assets/img/logo/language2.png" alt="">
-                                            Germany</a>
+                                    <li><a href="#"><img src="assets/img/logo/language.png" alt=""> English</a></li>
+                                    <li><a href="#"><img src="assets/img/logo/language2.png" alt=""> Germany</a>
                                     </li>
                                 </ul>
                             </li>

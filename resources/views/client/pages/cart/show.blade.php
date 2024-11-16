@@ -1,7 +1,7 @@
 @extends('app')
 
 @section('content')
-    <!--shopping cart area start -->
+    <!-- Khu vực giỏ hàng bắt đầu -->
     <div class="shopping_cart_area mt-32">
         <div class="container">
             <form action="#">
@@ -12,12 +12,12 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th class="product_remove">Delete</th>
-                                            <th class="product_thumb">Image</th>
-                                            <th class="product_name">Product</th>
-                                            <th class="product-price">Price</th>
-                                            <th class="product_quantity">Quantity</th>
-                                            <th class="product_total">Total</th>
+                                            <th class="product_remove">Xóa</th>
+                                            <th class="product_thumb">Hình ảnh</th>
+                                            <th class="product_name">Sản phẩm</th>
+                                            <th class="product-price">Giá</th>
+                                            <th class="product_quantity">Số lượng</th>
+                                            <th class="product_total">Tổng cộng</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -34,7 +34,7 @@
                                                 </td>
                                                 <td class="product_thumb">
                                                     <a href="#">
-                                                        <img src="{{ $item->product->image_url }}" alt="{{ $item->product->name }}">
+                                                        <img src="{{ filter_var($item->product->image_url, FILTER_VALIDATE_URL) ? $item->product->image_url : asset('images/default-product.jpg') }}" alt="{{ $item->product->name }}">
                                                     </a>
                                                 </td>
                                                 <td class="product_name">
@@ -44,10 +44,10 @@
                                                     ${{ $item->product->price }}
                                                 </td>
                                                 <td class="product_quantity">
-                                                    <label>Quantity</label>
+                                                    <label>Số lượng</label>
                                                     <input type="number" min="1" value="{{ $item->quantity }}" class="quantity" data-id="{{ $item->product->id }}" style="width: 50px; text-align: center;">
                                                 </td>
-                                                <td class="product_total">
+                                                <td class="product_total" data-price="{{ $item->product->price }}">
                                                     ${{ $item->product->price * $item->quantity }}
                                                 </td>
                                             </tr>
@@ -55,68 +55,66 @@
                                     </tbody>
                                 </table>
                             </div>
-
-
                         </div>
                     </div>
                 </div>
 
-                <!--coupon code area start-->
+                <!-- Khu vực mã giảm giá bắt đầu -->
                 <div class="coupon_area">
                     <div class="row">
                         <div class="col-lg-6 col-md-6">
                             <div class="coupon_code left">
-                                <h3>Coupon</h3>
+                                <h3>Mã giảm giá</h3>
                                 <div class="coupon_inner">
-                                    <p>Enter your coupon code if you have one.</p>
-                                    <input placeholder="Coupon code" type="text">
-                                    <button type="submit">Apply coupon</button>
+                                    <p>Nhập mã giảm giá của bạn nếu có.</p>
+                                    <input placeholder="Nhập mã giảm giá" type="text">
+                                    <button type="submit">Áp dụng mã</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="coupon_code right">
-                                <h3>Cart Totals</h3>
+                                <h3>Tổng giỏ hàng</h3>
                                 <div class="coupon_inner">
                                     <div class="cart_subtotal">
-                                        <p>Subtotal</p>
+                                        <p>Tạm tính</p>
                                         <p class="cart_amount">${{ $cart->items->sum(function ($item) {
                                             return $item->product->price * $item->quantity;
                                         }) }}</p>
                                     </div>
-                                    <div class="cart_subtotal ">
-                                        <p>Shipping</p>
-                                        <p class="cart_amount"><span>Flat Rate:</span> $10.00</p>
+                                    <div class="cart_subtotal">
+                                        <p>Phí vận chuyển</p>
+                                        <p class="cart_amount"><span>Đồng giá:</span> $10.00</p>
                                     </div>
-                                    <a href="#">Calculate shipping</a>
+                                    <a href="#">Tính phí vận chuyển</a>
 
                                     <div class="cart_subtotal">
-                                        <p>Total</p>
+                                        <p>Tổng cộng</p>
                                         <p class="cart_amount">${{ $cart->items->sum(function ($item) {
                                             return $item->product->price * $item->quantity;
-                                        }) + 10 }}</p> <!-- Add shipping here -->
+                                        }) + 10 }}</p> <!-- Thêm phí vận chuyển vào đây -->
                                     </div>
                                     <div class="checkout_btn">
-                                        <a href="{{ route('checkout.index') }}">Proceed to Checkout</a>
+                                        <a href="{{ route('checkout.index') }}">Tiến hành thanh toán</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!--coupon code area end-->
+                <!-- Khu vực mã giảm giá kết thúc -->
             </form>
         </div>
     </div>
 
     <script>
-        // Handle quantity update via AJAX
+        // Xử lý cập nhật số lượng qua AJAX
         document.querySelectorAll('.quantity').forEach(input => {
             input.addEventListener('change', function() {
                 let productId = this.getAttribute('data-id');
                 let quantity = parseInt(this.value);
 
-                // Send AJAX request to update cart quantity
+                // Gửi yêu cầu AJAX để cập nhật số lượng giỏ hàng
                 updateCartItem(productId, quantity);
             });
         });
@@ -134,10 +132,10 @@
             .then(data => {
                 if (data.message) {
                     console.log(data.message);
-                    location.reload(); // Reload page to update cart
+                    location.reload(); // Tải lại trang để cập nhật giỏ hàng
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.error('Lỗi:', error));
         }
     </script>
 

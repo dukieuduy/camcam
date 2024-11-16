@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     // Hiển thị danh sách sản phẩm
+        // Hiển thị danh sách sản phẩm
         public function index(){
             
             $products = Product::all();
@@ -128,12 +129,13 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         $reviews = Review::where('product_id', $id)->get(); 
+        $categories = Category::all();
 
         // Tính số sao trung bình
         $averageRating = $reviews->avg('rating');
 
 
-        return view('client.pages.detail', compact('product', 'reviews', 'averageRating'));
+        return view('client.pages.detail', compact('product', 'reviews', 'averageRating','categories'));
     }
 
 

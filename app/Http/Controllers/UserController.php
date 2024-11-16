@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 // use PhpParser\Node\Stmt\TryCatch;
@@ -11,7 +12,8 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function login(){
-        return view('client/pages.login');
+        $categories = Category::all();
+        return view('client/pages.login',compact('categories'));
     }
     public function postLogin(Request $request){
         // dd($request->all());
@@ -22,7 +24,8 @@ class UserController extends Controller
         }
     }
     public function register(){
-        return view('client/pages.register');
+        $categories = Category::all();
+        return view('client/pages.register',compact('categories'));
     }
     public function postRegister(Request $request){
         // dd($request->all());
@@ -42,4 +45,3 @@ class UserController extends Controller
         return redirect()->back();
     }
 }
-

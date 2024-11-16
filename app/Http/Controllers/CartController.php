@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\CartItem;
+use App\Models\Category;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
 
@@ -68,13 +69,14 @@ class CartController extends Controller
     public function showCart()
     {
         $cart = $this->getCart();
+        $categories = Category::all();
 
         if (!$cart) {
             return response()->json(['message' => 'Cart is empty']);
         }
 
         $totalQuantity = $cart->items->sum('quantity');
-        return view('client.pages.cart.show', compact('cart', 'totalQuantity'));
+        return view('client.pages.cart.show', compact('cart', 'totalQuantity','categories'));
     }
 
     // Sửa số lượng sản phẩm trong giỏ hàng

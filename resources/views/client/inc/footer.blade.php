@@ -6,8 +6,8 @@
                 <div class="col-12">
                     <div class="call_action_inner">
                         <div class="call_text">
-                            <h3>We Have <span>Recommendations</span> for You</h3>
-                            <p>Take 30% off when you spend $150 or more with code Autima11</p>
+                            <h3> <span>Fashion</span> changes the world</h3>
+                            <p>Once you choice CAMCAM, anything possible!</p>
                         </div>
                         <div class="discover_now">
                             <a href="#">discover now</a>

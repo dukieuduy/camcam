@@ -52,7 +52,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 
 //cart
-Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.store');
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::put('/cart/update/{productId}', [CartController::class, 'updateItem'])->name('cart.update');
 Route::delete('/cart/{productId}', [CartController::class, 'removeItem'])->name('cart.remove');

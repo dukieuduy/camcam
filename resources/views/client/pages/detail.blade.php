@@ -1,6 +1,28 @@
 @extends('app')
 
 @section('content')
+<div class="cart_succsess">
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <script>
+        // Tự động ẩn thông báo sau 3 giây
+        setTimeout(function() {
+            var alert = document.querySelector('.alert');
+            if (alert) {
+                alert.style.transition = 'opacity 0.6s';
+                alert.style.opacity = '0';
+                setTimeout(function() {
+                    alert.remove();
+                }, 600);
+            }
+        }, 3000);
+    </script>
+
+</div>
 <div class="product_details mt-20">
     <div class="container">
         <div class="row">
@@ -8,23 +30,22 @@
                 <div class="product-details-tab">
                     <div id="img-1" class="zoomWrapper single-zoom">
                         <a href="#">
-                            <img id="zoom1" src="{{ asset('assets/img/product/' . $product->image_url) }}" 
-                                 data-zoom-image="{{ asset('assets/img/product/' . $product->image_url) }}" alt="big-1">
+                            <img id="zoom1" src="{{ filter_var($product->image_url, FILTER_VALIDATE_URL) ? $product->image_url : asset('assets/img/product/' . $product->image_url) }}"
+                                 data-zoom-image="{{ filter_var($product->image_url, FILTER_VALIDATE_URL) ? $product->image_url : asset('assets/img/product/' . $product->image_url) }}" alt="big-1">
                         </a>
                     </div>
                     <div class="single-zoom-thumb">
                         <ul class="s-tab-zoom owl-carousel single-product-active" id="gallery_01">
                             @forelse($product->images ?? [] as $image)
                                 <li>
-                                    <a href="#" class="elevatezoom-gallery" data-image="{{ asset('assets/img/product/' . $image->url) }}"
-                                    data-zoom-image="{{ asset('assets/img/product/' . $image->url) }}">
-                                        <img src="{{ asset('assets/img/product/' . $image->url) }}" alt="zo-th-1" />
+                                    <a href="#" class="elevatezoom-gallery" data-image="{{ filter_var($image->url, FILTER_VALIDATE_URL) ? $image->url : asset('assets/img/product/' . $image->url) }}"
+                                       data-zoom-image="{{ filter_var($image->url, FILTER_VALIDATE_URL) ? $image->url : asset('assets/img/product/' . $image->url) }}">
+                                        <img src="{{ filter_var($image->url, FILTER_VALIDATE_URL) ? $image->url : asset('assets/img/product/' . $image->url) }}" alt="zo-th-1" />
                                     </a>
                                 </li>
                             @empty
-                                <p>No images available for this product.</p> <!-- Bạn có thể hiển thị thông báo nếu không có hình ảnh -->
+                                <p>No images available for this product.</p>
                             @endforelse
-
                         </ul>
                     </div>
                 </div>
@@ -32,7 +53,8 @@
 
             <div class="col-lg-6 col-md-6">
                 <div class="product_d_right">
-                    <form action="#">
+                    <form action="{{ route('cart.store') }}" method="POST">
+                        @csrf
                         <h1>{{ $product->name }}</h1>
                         <div class="product_nav">
                             <ul>
@@ -56,9 +78,10 @@
                                 color: gold;
                             }
                             .fa-star-o {
-                                color: #d3d3d3; 
-                            }   
+                                color: #d3d3d3;
+                            }
                         </style>
+
                         <div class="price_box">
                             <span class="current_price">${{ number_format($product->price, 2) }}</span>
                             @if($product->old_price)
@@ -81,16 +104,19 @@
                                         </li>
                                     @endforeach
                                 @else
-                                    <p>No colors available for this product.</p> <!-- Hiển thị thông báo nếu không có màu -->
+                                    <p>No colors available for this product.</p>
                                 @endif
-
                             </ul>
                         </div>
 
                         <div class="product_variant quantity">
                             <label>Quantity</label>
-                            <input min="1" max="100" value="1" type="number">
-                            <button class="button" type="submit">Add to Cart</button>
+                            <input min="1" max="100" value="1" type="number" name="quantity">
+                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                            <input type="hidden" name="user_id" value="{{ auth()->id() }}">
+                            <button class="button" type="submit" title="Add to Cart">
+                                <span class="lnr lnr-cart"></span> Add to Cart
+                            </button>
                         </div>
 
                         <div class="product_d_action">
@@ -105,7 +131,7 @@
                                 Category: <a href="{{ route('category.show', $product->category->id) }}">{{ $product->category->name }}</a>
                             @else
                                 No category assigned
-                            @endif    
+                            @endif
                         </div>
                     </form>
 

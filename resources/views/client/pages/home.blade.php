@@ -63,10 +63,20 @@
                                     
                                     <div class="product_thumb">
                                         <a class="primary_img" href="{{ route('product-details', $product->id) }}">
+<<<<<<< HEAD
                                             <img src="{{ asset('assets/img/product/' . $product->image_url) }}" alt="{{ $product->name }}">
                                         </a>
                                         <a class="secondary_img" href="{{ route('product-details', $product->id) }}">
                                             <img src="{{ asset('assets/img/product/' . $product->image_url) }}" alt="{{ $product->name }}">
+=======
+                                            <img src="{{ filter_var($product->image_url, FILTER_VALIDATE_URL) ? $product->image_url : asset('assets/img/product/' . $product->image_url) }}"
+                                            alt="{{ $product->name }}">
+                                        </a>
+                                        <a class="secondary_img" href="{{ route('product-details', $product->id) }}">
+                                            <img src="{{ filter_var($product->image_url, FILTER_VALIDATE_URL) ? $product->image_url : asset('assets/img/product/' . $product->image_url) }}"
+                                            alt="{{ $product->name }}">
+
+>>>>>>> main
                                         </a>
                                         
                                         <div class="label_product">
